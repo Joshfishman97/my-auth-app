@@ -6,9 +6,12 @@ from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from argon2 import PasswordHasher
+from flask_cors import CORS
 
 ph = PasswordHasher()
 api = Blueprint('api', __name__)
+
+CORS(api)
 
 
 
@@ -37,6 +40,7 @@ def register():
     return jsonify(response_body), 204
 
 @api.route('/login', methods=['POST'])
+@cross_origin()
 def login():
 
     content = request.get_json(silent=True)
