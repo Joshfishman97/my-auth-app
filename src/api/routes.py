@@ -6,12 +6,12 @@ from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from argon2 import PasswordHasher
-from flask_cors import CORS
+#from flask_cors import CORS
 
 ph = PasswordHasher()
 api = Blueprint('api', __name__)
 
-CORS(api)
+#CORS(api)
 
 
 
@@ -40,7 +40,7 @@ def register():
     return jsonify(response_body), 204
 
 @api.route('/login', methods=['POST'])
-@cross_origin()
+#@cross_origin()
 def login():
 
     content = request.get_json(silent=True)
@@ -48,12 +48,14 @@ def login():
     if user is None:
         return jsonify({"message": "invalid user"}), 403
     
-    if not ph.verify(user.password, content["password"]):
-        return jsonify({"message": "invalid password"}), 403
-    
+    try:
+        ph.verify(user.password, content["password"])
+    except:
+    return jsonify({"message": "invalid password"}), 403
+
     access_token = create_access_token(identity=user.id, additional_claims={"email":user.email})
     return jsonify({ "token": access_token, "user_id": user.id })
-
+    
 @api.route('/userinfo', methods=['GET'])
 @jwt_required()
 def userinfo():

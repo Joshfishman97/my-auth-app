@@ -1,5 +1,7 @@
 import React from "react";
 import { Context } from "../store/appContext";
+
+
 export function LoginUser() {
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
@@ -24,7 +26,7 @@ export function LoginUser() {
 					onChange={ev => setPassword(ev.target.value)}
 					type="password"
 					className="form-control"
-					placeholder="Password"
+					placeholder="Enter your password here"
 				/>
 				<label>Password</label>
 			</div>
