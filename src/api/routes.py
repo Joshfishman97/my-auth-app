@@ -56,7 +56,7 @@ def login():
 
     access_token = create_access_token(identity=user.id, additional_claims={"email":user.email})
     return jsonify({ "token": access_token, "user_id": user.id })
-
+    
 @api.route('/userinfo', methods=['GET'])
 @jwt_required()
 def userinfo():
