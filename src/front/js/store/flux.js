@@ -23,18 +23,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//get the store
 				const store = getStore();
 			},
+
+			logout: () => {
+				setStore({ authToken: null });
+			},
+
 			loginUser: (email, password) => {
 				fetch(process.env.BACKEND_URL + "/api/login", {
 					method: "POST",
-					mode: "cors",
 					body: JSON.stringify({ email, password }),
 					headers: {
 						"Content-Type": "application/json"
 					}
 				})
-					.then(resp => resp.json())
-					.then(data => setStore({ authToken: data.authToken, authError: null }))
-					.catch(error => console.log({ authToken: null, authError: error }));
+					.then(resp => {
+						if (resp.status !== 200) {
+							throw new Error(resp.data);
+						}
+						return resp.json();
+					})
+					.then(data => setStore({ authToken: data.token, authError: null }))
+					.catch(error => setStore({ authToken: null, authError: error }));
 			}
 		}
 	};
