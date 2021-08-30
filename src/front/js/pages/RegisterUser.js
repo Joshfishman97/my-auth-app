@@ -8,15 +8,6 @@ export function RegisterUser() {
 	const { store, actions } = React.useContext(Context);
 	const history = useHistory();
 
-	React.useEffect(
-		() => {
-			if (store.authToken) {
-				history.push("/login");
-			}
-		},
-		[store.authToken]
-	);
-
 	return (
 		<div className="container">
 			<div className="form-floating mb-3">
@@ -39,7 +30,9 @@ export function RegisterUser() {
 					placeholder="Password"
 				/>
 			</div>
-			<button className="btn btn-primary" onClick={() => actions.registerUser(email, password)}>
+			<button
+				className="btn btn-primary"
+				onClick={() => actions.registerUser(email, password).then(token => history.push("/dashboard"))}>
 				Register
 			</button>
 		</div>

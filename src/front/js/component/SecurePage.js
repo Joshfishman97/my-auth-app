@@ -6,15 +6,15 @@ export function SecurePage(props) {
 	const { store, actions } = React.useContext(Context);
 	const history = useHistory();
 
-	React.useEffect(
-		() => {
-			if (!store.authToken) {
-				history.push("/login");
-			}
-		},
+	// React.useEffect(
+	// 	() => {
+	// 		if (!store.authToken) {
+	// 			history.push("/login");
+	// 		}
+	// 	},
 
-		[store.authToken]
-	);
+	// 	[store.authToken]
+	// );
 
 	return <>{props.children}</>;
 }
